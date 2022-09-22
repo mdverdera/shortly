@@ -2,6 +2,17 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
+
+const UrlSchema = Yup.object().shape({
+  urlName: Yup.string()
+    .matches(
+      /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+      "Please enter a valid URL."
+    )
+    .required("Please enter website URL."),
+});
 
 const Home: NextPage = () => {
   return (
@@ -100,21 +111,47 @@ const Home: NextPage = () => {
         {/* Shorten Container */}
         <div className="max-w-4xl mx-auto p-6 space-y-6">
           {/* Form - todo convert to Formik*/}
-          <form
-            id="link-form"
-            className="relative flex flex-col w-full p-10 -mt-20 space-y-4 bg-darkViolet rounded-lg md:flex-row md:space-y-0 md:space-x-3"
+          <Formik
+            initialValues={{
+              urlName: "",
+            }}
+            validateOnChange={false}
+            validateOnBlur={false}
+            validationSchema={UrlSchema}
+            onSubmit={(values) => {
+              // same shape as initial values
+              console.log(values);
+            }}
           >
-            <input
-              id="link-input"
-              type="text"
-              className="flex-1 p-3 border-2 rounded-lg placeholder-yellow-500 focus:outline-none"
-              placeholder="Shorten a link here"
-            />
+            {({ errors, touched }) => (
+              <Form className="relative flex flex-col w-full p-10 -mt-20 space-y-4 bg-darkViolet rounded-lg md:flex-row md:space-y-0 md:space-x-3">
+                <Field
+                  name="urlName"
+                  type="text"
+                  className={`flex-1 p-3 border-2 rounded-lg placeholder-yellow-500 focus:outline-none  ${
+                    errors.urlName && touched.urlName && "border-red"
+                  }`}
+                  placeholder="Shorten a link here"
+                />
 
-            <button className="px-10 py-3 text-white bg-cyan rounded-lg hover:bg-cyanLight focus:outline-none md:py-2">
-              Shorten It!
-            </button>
-          </form>
+                <button
+                  type="submit"
+                  className="px-10 py-3 text-white bg-cyan rounded-lg hover:bg-cyanLight focus:outline-none md:py-2"
+                >
+                  Shorten It!
+                </button>
+
+                {/* Error Message */}
+
+                {errors.urlName && touched.urlName ? (
+                  <div className="absolute left-7 bottom-3 text-red text-sm italic">
+                    {errors.urlName}
+                  </div>
+                ) : null}
+              </Form>
+            )}
+          </Formik>
+
           {/* Link 1 */}
           <div className="flex flex-col items-center justify-between w-full p-6 bg-white rounded-lg md:flex-row">
             <p className="font-bold text-center text-veryDarkViolet md:text-left">
