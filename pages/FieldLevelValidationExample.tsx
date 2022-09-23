@@ -72,8 +72,9 @@ const FieldLevelValidationExample = () => (
             onClick={() => validateForm().then(() => console.log("blah"))}
             className="block"
           >
-            Validate All
+            All
           </button>
+          Validate
           <button type="submit" className="block">
             Submit
           </button>

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
+import { useState } from "react";
 
 const UrlSchema = Yup.object().shape({
   urlName: Yup.string()
@@ -15,6 +16,9 @@ const UrlSchema = Yup.object().shape({
 });
 
 const Home: NextPage = () => {
+  const [isOpen, setOpen] = useState(false);
+  const toggleMenu = () => setOpen(!isOpen);
+
   return (
     <>
       <Head>
@@ -70,10 +74,51 @@ const Home: NextPage = () => {
             </Link>
           </div>
 
-          {/* Hamburger Menu */}
+          {/* Hamburger Button Menu */}
+          <button
+            type="button"
+            className={`${
+              isOpen && "open"
+            } z-40 block hamburger lg:hidden focus:outline-none`}
+            onClick={toggleMenu}
+          >
+            <span className="hamburger-top"></span>
+            <span className="hamburger-middle"></span>
+            <span className="hamburger-bottom"></span>
+          </button>
         </div>
 
         {/* Mobile Menu */}
+        <div
+          className={`absolute ${
+            isOpen ? "flex" : "hidden"
+          } p-6 rounded-lg bg-darkViolet left-6 right-6 top-20 z-100 lg:hidden`}
+        >
+          <div className="flex flex-col items-center justify-center w-full space-y-6 font-bold text-white rounded-sm">
+            <Link href="#">
+              <a className="w-full text-center">Features</a>
+            </Link>
+            <Link href="#">
+              <a className="w-full text-center">Pricing</a>
+            </Link>
+
+            <Link href="#">
+              <a className="w-full text-center">Resources</a>
+            </Link>
+
+            <Link href="#">
+              <a className="w-full pt-6 border-t border-gray-400 text-center">
+                Login
+              </a>
+            </Link>
+
+            <Link href="#">
+              <a className="w-full py-3 text-center rounded-full bg-cyan">
+                Sign Up
+              </a>
+            </Link>
+          </div>
+        </div>
       </nav>
 
       {/* Hero Section */}
@@ -296,6 +341,161 @@ const Home: NextPage = () => {
           </div>
         </div>
       </section>
+
+      {/* CTA Section */}
+      <section id="cta" className="py-24 bg-darkViolet">
+        <div className="flex flex-col p-2 space-y-6">
+          <h5 className="mx-auto space-y-10 text-4xl font-bold text-center text-white">
+            Boost your links today
+          </h5>
+          <button className="px-10 py-5 mx-auto text-2xl font-bold text-white rounded-full bg-cyan hover:bg-cyanLight md:text-base md:py-3 focus:outline-none">
+            Get Started
+          </button>
+        </div>
+      </section>
+
+      <footer className="py-16 bg-veryDarkViolet">
+        <div className="container flex flex-col items-center justify-between mx-auto space-y-16 md:flex-row md:space-y-0 md:items-start">
+          {/* Logo */}
+          <picture>
+            <img src="/img/logo.svg" alt="logo" />
+          </picture>
+
+          {/* Menus Container  */}
+          <div className="flex flex-col space-y-16 md:space-x-20 md:flex-row md:space-y-0">
+            {/* Menu 1 */}
+            <div className="flex flex-col items-center w-full md:items-start">
+              <div className=" mb-5 font-bold text-white capitalize">
+                Features
+              </div>
+
+              <div className="flex flex-col items-center space-y-3 md:items-start">
+                <Link href="#">
+                  <a className="capitalize text-grayishViolet hover:text-cyan">
+                    Link Shortening
+                  </a>
+                </Link>
+
+                <Link href="#">
+                  <a className="capitalize text-grayishViolet hover:text-cyan">
+                    Branded Links
+                  </a>
+                </Link>
+
+                <Link href="#">
+                  <a className="capitalize text-grayishViolet hover:text-cyan">
+                    Analytics
+                  </a>
+                </Link>
+              </div>
+            </div>
+
+            {/* Menu 2 */}
+            <div className="flex flex-col items-center w-full md:items-start">
+              <div className=" mb-5 font-bold text-white capitalize">
+                Resources
+              </div>
+
+              <div className="flex flex-col items-center space-y-3 md:items-start">
+                <Link href="#">
+                  <a className="capitalize text-grayishViolet hover:text-cyan">
+                    Blog
+                  </a>
+                </Link>
+
+                <Link href="#">
+                  <a className="capitalize text-grayishViolet hover:text-cyan">
+                    Developers
+                  </a>
+                </Link>
+
+                <Link href="#">
+                  <a className="capitalize text-grayishViolet hover:text-cyan">
+                    Support
+                  </a>
+                </Link>
+              </div>
+            </div>
+
+            {/* Menu 3 */}
+            <div className="flex flex-col items-center w-full md:items-start">
+              <div className=" mb-5 font-bold text-white capitalize">
+                Company
+              </div>
+
+              <div className="flex flex-col items-center space-y-3 md:items-start">
+                <Link href="#">
+                  <a className="capitalize text-grayishViolet hover:text-cyan">
+                    About
+                  </a>
+                </Link>
+
+                <Link href="#">
+                  <a className="capitalize text-grayishViolet hover:text-cyan">
+                    Our Team
+                  </a>
+                </Link>
+
+                <Link href="#">
+                  <a className="capitalize text-grayishViolet hover:text-cyan">
+                    Careers
+                  </a>
+                </Link>
+
+                <Link href="#">
+                  <a className="capitalize text-grayishViolet hover:text-cyan">
+                    Contact
+                  </a>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Social Container */}
+
+          <div className="flex space-x-6">
+            <Link href="#" passHref>
+              <picture>
+                <img
+                  src="/img/icon-facebook.svg"
+                  alt="facebook"
+                  className="ficon"
+                />
+              </picture>
+            </Link>
+
+            <Link href="#" passHref>
+              <picture>
+                <img
+                  src="/img/icon-twitter.svg"
+                  alt="twitter"
+                  className="ficon"
+                />
+              </picture>
+            </Link>
+
+            <Link href="#" passHref>
+              <picture>
+                <img
+                  src="/img/icon-pinterest.svg"
+                  alt="pinterest"
+                  className="ficon"
+                />
+              </picture>
+            </Link>
+
+            <Link href="#" passHref>
+              <picture>
+                <img
+                  src="/img/icon-instagram.svg"
+                  alt="instagram"
+                  className="ficon"
+                />
+              </picture>
+            </Link>
+          </div>
+        </div>
+      </footer>
     </>
   );
 };
